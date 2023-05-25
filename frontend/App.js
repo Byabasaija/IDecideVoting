@@ -28,21 +28,11 @@ import Header from "./Components/Header";
 import Login from "./Components/Login";
 import WalletLogin from "./Components/WalletLogin";
 
+import {useLogin} from './Components/hooks/useLogin'
 
 export default function App({ isSignedIn, contractId, wallet }) {
   const [promptList, changePromptList] = useState([]);
-  const [loggedIn, setLoggedIn] = useState(false)
-  const [user, setUser] = useState({})
-
-  useEffect(() => {
-    const user = JSON.parse(sessionStorage.getItem('user')) ? JSON.parse(sessionStorage.getItem('user')) : false;
-    if(user){
-        setLoggedIn(user.logged)
-        setUser(user)
-        
-    }  
-
-}, []);
+  const {loggedIn, user} = useLogin()
 
   const callMethod = async (methodName, args = {}) => {
     wallet.callMethod({
@@ -60,7 +50,7 @@ export default function App({ isSignedIn, contractId, wallet }) {
     });
   };
 
-
+ 
   const signInFun = () => {
     wallet.signIn();
   };
